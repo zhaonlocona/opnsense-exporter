@@ -2,6 +2,7 @@ package opnsense
 
 import (
 	"log/slog"
+	"strconv"
 )
 
 // GatewayStatus is the custom type that represents the status of a gateway
@@ -104,6 +105,23 @@ type Gateway struct {
 
 type Gateways struct {
 	Gateways []Gateway
+}
+
+// GetPriorityString returns the priority as a string, handling int, float64, and string types
+func (g *Gateway) GetPriorityString() string {
+	if g.Priority == "" {
+		return "255"
+	}
+	return g.Priority
+}
+
+// GetPriorityInt returns the priority as an int, handling int, float64, and string types
+func (g *Gateway) GetPriorityInt() int {
+	s := g.GetPriorityString()
+	if i, err := strconv.Atoi(s); err == nil {
+		return i
+	}
+	return 255
 }
 
 // parseGatewayStatus parses a string status to a GatewayStatus type.

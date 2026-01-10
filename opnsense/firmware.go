@@ -1,6 +1,8 @@
 package opnsense
 
-type firmwareStatusResponse struct {
+import (
+	"strings"
+)
 	LastCheck      string `json:"last_check"`
 	NeedsReboot    string `json:"needs_reboot"`
 	OsVersion      string `json:"os_version"`
@@ -37,6 +39,22 @@ type FirmwareStatus struct {
 	ProductVersion     string
 	UpgradePackages    int
 	UpgradeNeedsReboot string
+}
+
+// GetNeedsReboot returns true if the system needs a reboot
+func (f *FirmwareStatus) GetNeedsReboot() bool {
+	if f.NeedsReboot == "" {
+		return false
+	}
+	return f.NeedsReboot == "1" || strings.ToLower(f.NeedsReboot) == "true"
+}
+
+// GetUpgradeNeedsReboot returns true if the system needs a reboot after upgrade
+func (f *FirmwareStatus) GetUpgradeNeedsReboot() bool {
+	if f.UpgradeNeedsReboot == "" {
+		return false
+	}
+	return f.UpgradeNeedsReboot == "1" || strings.ToLower(f.UpgradeNeedsReboot) == "true"
 }
 
 func NewFirmwareStatus() FirmwareStatus {
