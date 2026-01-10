@@ -32,6 +32,8 @@ jobs:
   build:
     name: Build & Publish on Tag
     runs-on: ubuntu-latest
+    # Skip this job when triggered by tag push - Release workflow handles that
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/'))
     steps:
       - uses: actions/checkout@v4
         with:
