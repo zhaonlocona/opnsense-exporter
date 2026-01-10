@@ -46,7 +46,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/AthennaMind/opnsense-exporter
+            ghcr.io/${{ github.repository }}
           tags: |
             type=semver,pattern={{version}}
 
