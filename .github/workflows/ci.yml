@@ -39,7 +39,12 @@ jobs:
 
       - name: Get TAG
         id: get_tag
-        run: echo TAG=${GITHUB_REF#refs/tags/} >> $GITHUB_ENV
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          else
+            echo "TAG=dev" >> $GITHUB_ENV
+          fi
 
       - name: Docker meta
         id: meta
@@ -78,5 +83,7 @@ jobs:
 permissions:
   # Required: allow read access to the content for analysis.
   contents: read
+  # Required: allow write access to push to container registry
+  packages: write
   # Optional: allow read access to pull requests. Use with `only-new-issues` option.
   pull-requests: read
