@@ -3,6 +3,8 @@ package opnsense
 import (
 	"strings"
 )
+
+type firmwareStatusResponse struct {
 	LastCheck      string `json:"last_check"`
 	NeedsReboot    string `json:"needs_reboot"`
 	OsVersion      string `json:"os_version"`
