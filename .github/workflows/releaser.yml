@@ -10,6 +10,24 @@ permissions:
   packages: write
 
 jobs:
+  tests:
+    name: Tests & Linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: "Run Linters"
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: latest
+          args: --verbose
+      - name: Run tests
+        run: go test -v ./...
+
   goreleaser:
     runs-on: ubuntu-latest
     steps:

@@ -2,8 +2,6 @@ name: CI
 
 on:
   push:
-    tags:
-      - "v*.*.*"
     branches:
       - "main"
   pull_request:
@@ -30,10 +28,8 @@ jobs:
         run: go test -v ./...
 
   build:
-    name: Build & Publish on Tag
+    name: Build & Publish on Main
     runs-on: ubuntu-latest
-    # Skip this job when triggered by tag push - Release workflow handles that
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/'))
     steps:
       - uses: actions/checkout@v4
         with:
